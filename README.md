@@ -9,6 +9,9 @@ python app.py
 Menu principal
 
 ```
+Olá, bem vindo ao sistema da escola!
+
+
 Menu
 1 -> Cadastros
 2 -> Listar
