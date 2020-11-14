@@ -10,7 +10,7 @@ import os
 
 class Menu(object):
 	def __init__(self):
-		print("Olá, bem vindo ao sistema da escola!")
+		print("\n\n 	Olá, bem vindo ao sistema da escola!")
 
 	def menu(self):
 		opcao = Form().menu()

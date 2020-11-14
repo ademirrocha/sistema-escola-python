@@ -1,5 +1,5 @@
-# -*- coding: cp1252 -*-
-# -*- coding: utf-8 -*-
+# --- coding: cp1252 ---
+# --- coding: utf-8 ---
 from disciplina import Disciplina
 from nota import Nota
 
@@ -17,18 +17,22 @@ class Prova (object):
 
 	@classmethod
 	def all(cls):
-		print("\n\nLista de Provas:")
+		print('\n\n\n############################# Lista de Provas #############################')
+		print('\n|--------------+---------------------+-------------+----------------------|')
+		print('  ID Prova          Disciplina            Pontos               Status   ')
+		print('|--------------+---------------------+-------------+----------------------|')
 		for p in cls.objects:
 			disciplina = list(filter(lambda x: x.id == p.disciplina, Disciplina().objects))
-			print('ID Prova: {} - Disciplina: {} - Pontos: {} - Status: {}'.format(p.id, disciplina[0].nome, p.pontos, p.status))
-
+			print(' {:>6}        {:>16}         {:>7,.1f}    {:>21}'.format(p.id, disciplina[0].nome, p.pontos, p.status))
+			print('|--------------+---------------------+-------------+----------------------|')
 	
 	def get(self, id_prova):
 		prova = list(filter(lambda x: x.id == id_prova, self.__class__.objects))
 		disciplina = list(filter(lambda x: x.id == prova[0].disciplina, Disciplina().objects))
-		print("\n\nProva de {} valendo {} pontos.".format(disciplina[0].nome, prova[0].pontos))
-		print("\nID da Prova {} - Status: {}.".format(prova[0].id, prova[0].status))
-
+		print('\n\n\n####################### Informações sobre a prova #########################')
+		print("\n            Prova de {} valendo {} pontos.   ".format(disciplina[0].nome, prova[0].pontos))
+		print("\n            ID da Prova {} - Status: {}.".format(prova[0].id, prova[0].status))
+		
 		if(prova[0].status != 'não realizada'):
 			Nota().getNotas(prova[0].id)
 
