@@ -3,6 +3,7 @@
 from aluno import Aluno
 from disciplina import Disciplina
 from prova import Prova
+from nota import Nota
 
 class Seeds(object):
 	def __init__(self):
@@ -18,3 +19,8 @@ class Seeds(object):
 			Prova().save(1, 10.0)
 			Prova().save(2, 10.0)
 			Prova().save(3, 15.0)
+		if(len(Nota().objects) == 0):
+			Nota().save(1, 1, 7.0)
+			Nota().save(1, 2, 5.5)
+			Nota().save(1, 3, 8.0)
+			Prova().atualizaStatus(1)
