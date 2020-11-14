@@ -20,6 +20,9 @@ class Menu(object):
 		if(opcao == "1-2"):
 			d = Form().cadastroDisciplina()
 			Disciplina().save(d.nome)
+		if(opcao == "1-3"):
+			d = Form().cadastroProva()
+			Prova().save(d.disciplina, d.pontos)
 		if(opcao == "2-1"):
 			Aluno().all()
 		if(opcao == "2-2"):

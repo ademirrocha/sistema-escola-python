@@ -1,5 +1,7 @@
 # -*- coding: cp1252 -*-
 # -*- coding: utf-8 -*-
+from disciplina import Disciplina
+
 class Form(object):
 
 	def cadastroAluno(self):
@@ -8,7 +10,15 @@ class Form(object):
 		return self
 
 	def cadastroDisciplina(self):
-		self.nome = input('Digite o nome da disciplina: ')
+		print('\n\nCadastro de Disciplina:')
+		self.nome = input('\nDigite o nome da disciplina: ')
+		return self
+
+	def cadastroProva(self):
+		Disciplina().all()
+		print('\n\nCadastro de Prova:')
+		self.disciplina = Form().inputInt('\nDigite o ID da disciplina conforme a lista acima: ', '\nErro: O ID da disciplina deve ser um número.')
+		self.pontos = Form().inputFloat('\nDigite a quantidade de pontos que vale a prova: ', '\nErro: Os pontos da prova deve ser um número (casas decimais deve separados por . e não por , ).')
 		return self
 
 	def menu(self):
