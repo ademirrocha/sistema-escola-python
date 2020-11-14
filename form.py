@@ -1,12 +1,13 @@
 # -*- coding: cp1252 -*-
 # -*- coding: utf-8 -*-
 from disciplina import Disciplina
+from prova import Prova
 
 class Form(object):
 
 	def cadastroAluno(self):
 		self.nome = input('Digite o nome: ')
-		self.idade = input('Digite a idade: ')
+		self.idade = Form().inputInt('\nDigite a idade: ', '\nErro: A idade deve ser um número.')
 		return self
 
 	def cadastroDisciplina(self):
@@ -16,8 +17,9 @@ class Form(object):
 
 	def cadastroProva(self):
 		Disciplina().all()
+		idsDisciplina = Disciplina().ids()
 		print('\n\nCadastro de Prova:')
-		self.disciplina = Form().inputInt('\nDigite o ID da disciplina conforme a lista acima: ', '\nErro: O ID da disciplina deve ser um número.')
+		self.disciplina = Form().inputInt('\nDigite o ID da disciplina conforme a lista acima: ', '\nErro: O ID da disciplina deve ser um número presente na lista acima.', idsDisciplina)
 		self.pontos = Form().inputFloat('\nDigite a quantidade de pontos que vale a prova: ', '\nErro: Os pontos da prova deve ser um número (casas decimais deve separados por . e não por , ).')
 		return self
 
@@ -75,10 +77,13 @@ class Form(object):
 				opcao = '3-3'
 			elif(o == "0"):
 				Form().menu()
+
 		return opcao
 
 	def pesquisaProva(self):
-		return Form().inputInt('Digite o ID da prova: ', 'Erro: O peso informado deve ser um numero.')
+		Prova().all()
+		idsProva = Prova().ids()
+		return Form().inputInt('\nDigite o ID da prova conforme a lista acima: ', '\nErro: O ID da prova deve ser um numero presente na lista acima.', idsProva)
 
 
 	def inputFloat(self, caption, errCaption):
@@ -92,12 +97,19 @@ class Form(object):
 				print(errCaption)
 		return x
 
-	def inputInt(self, caption, errCaption):
+	def inputInt(self, caption, errCaption, idsDisciplina = None):
 		x = None
 		while True:
 			try:
 				x = int(input(caption))
-				break
+				if(idsDisciplina == None):
+					break
+				elif(x in idsDisciplina):
+					break
+				elif(idsDisciplina != None):
+					print(errCaption)
 			except ValueError:
 				print(errCaption)
 		return x
+
+

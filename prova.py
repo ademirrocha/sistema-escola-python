@@ -29,3 +29,10 @@ class Prova (object):
 
 		#for p in cls.objects:
 			#print('Matricula: {} - Nome: {} - Idade: {}'.format(p.matricula, p.nome, p.idade))
+
+	@classmethod
+	def ids(cls):
+		array = []
+		for p in cls.objects:
+			array.append(p.id)
+		return array

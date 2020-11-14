@@ -16,3 +16,10 @@ class Disciplina (object):
 		print("\n\nLista de disciplinas:")
 		for p in cls.objects:
 			print('ID: {} - Disciplina: {}'.format(p.id, p.nome))
+
+	@classmethod
+	def ids(cls):
+		array = []
+		for p in cls.objects:
+			array.append(p.id)
+		return array
