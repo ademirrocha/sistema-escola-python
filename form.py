@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 from disciplina import Disciplina
 from prova import Prova
+from aluno import Aluno
+from nota import Nota
 
 class Form(object):
 
@@ -23,6 +25,18 @@ class Form(object):
 		self.pontos = Form().inputFloat('\nDigite a quantidade de pontos que vale a prova: ', '\nErro: Os pontos da prova deve ser um número (casas decimais deve separados por . e não por , ).')
 		return self
 
+	def cadastroNota(self):
+		alunos = Aluno()
+		dataProva = Prova().getOnlyData(Form().pesquisaProva('não realizada', "\nErro: Pesquise por uma prova da lista e que não foi realizada ainda."))
+		print("\nProva de {} valendo {} pontos:".format(dataProva[1].nome, dataProva[0].pontos))
+		for aluno in alunos.objects:
+			nota = Form().inputFloat('\nDigite a nota de {}: '.format(aluno.nome), '\nErro: A nota deve ser um número (casas decimais devem separadas por .)', dataProva[0].pontos, 'Erro: Digite um número maior ou igual a 0 e menor ou igual a {}.'.format(dataProva[0].pontos))
+			Nota().save(dataProva[0].id, aluno.matricula, nota)
+
+		#Atualiza o status da prova pra "Realizada"
+		Prova().atualizaStatus(dataProva[0].id)
+
+
 	def menu(self):
 		print("\n\nMenu")
 		print("1 -> Cadastros")
@@ -36,6 +50,7 @@ class Form(object):
 			print("1 -> Cadastrar Aluno")
 			print("2 -> Cadastrar Disciplina")
 			print("3 -> Cadastrar Prova")
+			print("4 -> Cadastrar Notas de uma prova")
 			print("0 -> Retornar ao menu anterior")
 			o = input('\n\nDigite o valor do submenu: ')
 			if(o == "1"):
@@ -44,6 +59,8 @@ class Form(object):
 				opcao = '1-2'
 			elif (o == "3"):
 				opcao = '1-3'
+			elif (o == "4"):
+				opcao = '1-4'
 			elif(o == "0"):
 				Form().menu()
 
@@ -80,24 +97,31 @@ class Form(object):
 
 		return opcao
 
-	def pesquisaProva(self):
+	def pesquisaProva(self, options = 'todos', otherError = None):
 		Prova().all()
-		idsProva = Prova().ids()
-		return Form().inputInt('\nDigite o ID da prova conforme a lista acima: ', '\nErro: O ID da prova deve ser um numero presente na lista acima.', idsProva)
+		idsProva = Prova().ids(options)
+		return Form().inputInt('\nDigite o ID da prova conforme a lista acima: ', '\nErro: O ID da prova deve ser um numero presente na lista acima.', idsProva, otherError)
 
 
-	def inputFloat(self, caption, errCaption):
+	def inputFloat(self, caption, errCaption, lessOrEqual = None, otherError = None):
 		x = None
    
 		while True:
 			try:
 				x = float(input(caption))
-				break
+				if(lessOrEqual == None):
+					break
+				elif(x <= lessOrEqual and x >= 0.0):
+					break
+				elif(lessOrEqual != None):
+					if(otherError == None):
+						otherError = errCaption
+					print(otherError)
 			except ValueError:
 				print(errCaption)
 		return x
 
-	def inputInt(self, caption, errCaption, idsDisciplina = None):
+	def inputInt(self, caption, errCaption, idsDisciplina = None, otherError = None):
 		x = None
 		while True:
 			try:
@@ -107,9 +131,10 @@ class Form(object):
 				elif(x in idsDisciplina):
 					break
 				elif(idsDisciplina != None):
-					print(errCaption)
+					if(otherError == None):
+						otherError = errCaption
+					print(otherError)
 			except ValueError:
 				print(errCaption)
 		return x
-
 

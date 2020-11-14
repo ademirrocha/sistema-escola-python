@@ -15,6 +15,6 @@ class Seeds(object):
 			Disciplina().save('Português')
 			Disciplina().save('História')
 		if(len(Prova().objects) == 0):
-			Prova().save(1, 10)
-			Prova().save(2, 10)
-			Prova().save(3, 15)
+			Prova().save(1, 10.0)
+			Prova().save(2, 10.0)
+			Prova().save(3, 15.0)

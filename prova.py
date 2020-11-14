@@ -1,6 +1,8 @@
 # -*- coding: cp1252 -*-
 # -*- coding: utf-8 -*-
 from disciplina import Disciplina
+from nota import Nota
+
 class Prova (object):
 	seq = 0
 	objects = []
@@ -27,12 +29,30 @@ class Prova (object):
 		print("\n\nProva de {} valendo {} pontos.".format(disciplina[0].nome, prova[0].pontos))
 		print("\nID da Prova {} - Status: {}.".format(prova[0].id, prova[0].status))
 
-		#for p in cls.objects:
-			#print('Matricula: {} - Nome: {} - Idade: {}'.format(p.matricula, p.nome, p.idade))
+		if(prova[0].status != 'não realizada'):
+			Nota().getNotas(prova[0].id)
+
+	#return array com objeto prova e objeto disciplina
+	def getOnlyData(self, id_prova):
+		prova = list(filter(lambda x: x.id == id_prova, self.__class__.objects))
+		disciplina = list(filter(lambda x: x.id == prova[0].disciplina, Disciplina().objects))
+		return [prova[0], disciplina[0]]
+			
 
 	@classmethod
-	def ids(cls):
+	def ids(self, options = 'todos'):
 		array = []
-		for p in cls.objects:
+		if(options == 'não realizada'):
+			provas = list(filter(lambda x: x.status == 'não realizada', Prova().objects))
+		elif(options == 'Realizada'):
+			provas = list(filter(lambda x: x.status == 'Realizada', Prova().objects))
+		else:
+			provas = Prova().objects
+
+		for p in provas:
 			array.append(p.id)
 		return array
+
+	def atualizaStatus(self, id_prova):
+		prova = list(filter(lambda x: x.id == id_prova, self.__class__.objects))
+		prova[0].status = "Realizada"

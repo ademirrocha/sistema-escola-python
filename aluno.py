@@ -17,3 +17,6 @@ class Aluno (object):
 		print("\n\nLista de alunos:")
 		for p in cls.objects:
 			print('Matricula: {} - Nome: {} - Idade: {}'.format(p.matricula, p.nome, p.idade))
+
+
+	
