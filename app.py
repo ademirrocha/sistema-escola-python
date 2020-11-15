@@ -35,6 +35,8 @@ class Menu(object):
 			Prova().all()
 		if(opcao == "3-1"):
 			Aluno().get(Form().pesquisaAluno(), Prova(), Disciplina().objects)
+		if(opcao == "3-2"):
+			Disciplina().get(Form().pesquisaDisciplina(Prova().objects), Prova())
 		if(opcao == "3-3"):
 			Prova().get(Form().pesquisaProva())
 		if(opcao == "9"):

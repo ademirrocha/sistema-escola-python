@@ -43,9 +43,8 @@ class Disciplina (object):
 
 	@classmethod
 	def getData(self, id_disciplina):
-		prova = list(filter(lambda x: x.id == id_disciplina, self.objects))
-		return prova[0]
-
+		disciplina = list(filter(lambda x: x.id == id_disciplina, self.objects))
+		return disciplina[0]
 
 
 	@classmethod
@@ -72,4 +71,26 @@ class Disciplina (object):
 			nota += notaProva[0].nota
 
 		return nota
+
+
+	def get(self, id_disciplina, provas = None):
+		disciplina = list(filter(lambda x: x.id == id_disciplina, self.__class__.objects))
+		notaDistribuida = Disciplina().calcNotasDistribuidas(provas.objects, id_disciplina, 'Todos')
+		qtdProvas = len(provas.getProvaByDisciplina(id_disciplina, 'data'))
+		print('\n\n\n##############################################################################################')
+		print("{:>30} {}".format(' ',' INFORMAÇÕES SOBRE A DISCIPLINA '))
+		
+		print("\n 		NOME: {}  |  TOTAL DE PONTOS: {}   ".format(disciplina[0].nome, disciplina[0].notaTotal))
+		print("\n 		PROVAS CADASTRADAS: {}  |  PONTOS EM PROVAS CADASTRADAS: {}  ".format(qtdProvas, notaDistribuida))
+
+		print('\n\n\n##############################################################################################')
+		print("{:>30} {}".format(' ',' PROVAS DA DISCIPLINA '))
+		provas.getProvaByDisciplina(id_disciplina)
+
+
+
+	@classmethod
+	def getProvas(self, id_disciplina):
+		disciplina = list(filter(lambda x: x.id == id_disciplina, self.objects))
+		return disciplina[0]
 

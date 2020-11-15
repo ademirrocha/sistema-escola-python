@@ -125,6 +125,12 @@ class Form(object):
 		return Form().inputInt('\n{:>20} {}'.format(' ', 'Digite a matricula do aluno conforme a lista acima: '), '\nErro: A matricula deve ser um numero presente na lista acima.', matriculas, otherError)
 
 
+	def pesquisaDisciplina(self, provas, options = 'todos', otherError = None):
+		Disciplina().all(provas)
+		idsDisciplina = Disciplina().ids()
+		return Form().inputInt('\n{:>20} {}'.format(' ', 'Digite o ID da disciplina conforme a lista acima: '), '\nErro: O ID da disciplina deve ser um numero presente na lista acima.', idsDisciplina, otherError)
+
+
 	def inputFloat(self, caption, errCaption, lessOrEqual = None, otherError = None):
 		x = None
    

@@ -69,22 +69,48 @@ class Prova (object):
 		prova[0].status = "Realizada"
 
 
+
+
+	#Return provas de um aluno
 	def getProvaByAluno(self, matricula):
 		idsProvas = Prova().ids('Realizada')
 		provas = list(filter(lambda x: x.id in idsProvas, Prova().objects))
 
 		if(len(provas) > 0):
-			print('\n\n|-----------------------+-------------------+-------------------+-----------------------|')
-			print('     Disciplina             Valor                Pontuação          Aproveitamento')
-			print('|-----------------------+-------------------+-------------------+-----------------------|')
+			print('\n|------------------------+----------------------+--------------------+-----------------------|')
+			print(f"{'':5} {'DISCIPLINA':10} {'':15}  {'VALOR':20} {'PONTUACAO':20} {'APROVEITAMENTO':10}")
+			print('|------------------------+-------------------------------------------+-----------------------|')
 			for prova in provas:
 				nota = Nota().getNotaAluno(prova.id, matricula)
-				
-				print('     {:>10}       {:>10,.1f} pontos   {:>10,.1f} pontos        {:>10}%'.format(prova.getDisciplina().nome, prova.pontos, nota, (nota / prova.pontos * 100)))
-				print('|-----------------------+-------------------+-------------------+-----------------------|')
+				print(f"{'':4} {prova.getDisciplina().nome:23} {prova.pontos:10.1f} {'':17} {nota:.1f} {'':18} {(nota / prova.pontos * 100):1.1f}%  ")
+				print('|------------------------+-------------------------------------------+-----------------------|')
 
 
 		else:
 			print('\n\n------------------------ Nenhuma prova realizada ainda! -------------------------------')
 
+
+
+
+
+	#Return provas de uma disciplina
+	def getProvaByDisciplina(self, id_disciplina, options = 'plot'):
+		
+		provas = list(filter(lambda x: x.disciplina == id_disciplina, Prova().objects))
+
+		if(options == 'plot'):
+			if(len(provas) > 0):
+				print('\n|---------------+--------------------------------+-----------------+-------------------------|')
+				print(f"{'':5} {'ID':10} {'':8}  {'DISCIPLINA':28} {'PONTOS':22} {'STATUS':25}")
+				print('|---------------+--------------------------------+-----------------+-------------------------|')
+				for p in provas:
+					disciplina = list(filter(lambda x: x.id == p.disciplina, Disciplina().objects))
+					print(f"{p.id:7} {'':17}  {disciplina[0].nome:11} {p.pontos:22.1f} {'':15} {p.status:25}")
+					print('|---------------+--------------------------------+-----------------+-------------------------|')
+
+
+			else:
+				print('\n\n------------------------ Nenhuma prova cadastrada para esta disciplina! -------------------------------')
+		elif(options == 'data'):
+			return provas
 		
