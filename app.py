@@ -34,13 +34,13 @@ class Menu(object):
 		if(opcao == "2-3"):
 			Prova().all()
 		if(opcao == "3-1"):
-			Aluno().get(Form().pesquisaAluno(), Prova())
+			Aluno().get(Form().pesquisaAluno(), Prova(), Disciplina().objects)
 		if(opcao == "3-3"):
 			Prova().get(Form().pesquisaProva())
 		if(opcao == "9"):
 			clear = lambda: os.system('clear')
 			clear()
-		if(opcao != "x"):
+		if(opcao != "x" and opcao != "X"):
 			app.menu()
 
 Seeds();

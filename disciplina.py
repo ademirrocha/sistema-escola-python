@@ -1,6 +1,6 @@
 # -*- coding: cp1252 -*-
 # -*- coding: utf-8 -*-
-
+from nota import Nota
 
 class Disciplina (object):
 	seq = 0
@@ -55,6 +55,21 @@ class Disciplina (object):
 			if(options == None):
 				array.append(p.id)
 			elif(options == 'Pontos Disponível'):
-				if(Disciplina().calcNotasDistribuidas(provas, p.id, 'Todos') > 0):
+				if(Disciplina().calcNotasDistribuidas(provas, p.id, 'Todos') < p.notaTotal):
 					array.append(p.id)
 		return array
+
+
+	#Total de notas por disciplina
+	def getNotaAluno(self, matricula, provas):
+		provas = list(filter(lambda x: x.disciplina == self.id and x.status == 'Realizada', provas))
+		nota = 0
+		for prova in provas:
+			notaProva = list(filter(lambda x: x.prova == prova.id and x.aluno == matricula, Nota().objects))
+			if(len(notaProva) == 0):
+				self.save(prova.id, matricula, 0.0)
+				notaProva = list(filter(lambda x: x.prova == prova.id and x.aluno == matricula, Nota().objects))
+			nota += notaProva[0].nota
+
+		return nota
+

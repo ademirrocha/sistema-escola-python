@@ -24,6 +24,8 @@ class Nota(object):
 			print(f"{'':15} {aluno.nome:15} {nota:35}")
 			print('|--------------------------------------+-----------------------------------------------------|')
 
+
+	#Total de nota por prova
 	def getNotaAluno(self, id_prova, matricula_aluno):
 		nota = list(filter(lambda x: x.prova == id_prova and x.aluno == matricula_aluno, Nota().objects))
 		if(len(nota) == 0):

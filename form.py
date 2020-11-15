@@ -25,7 +25,7 @@ class Form(object):
 		idsDisciplina = Disciplina().ids('Pontos Disponível', Prova().objects)
 		print('\n\n\n##############################################################################################')
 		print("{:>30} {}".format(' ', ' CADASTRO DE PROVAS '))
-		self.disciplina = Form().inputInt('\n------------- Digite o ID da disciplina conforme a lista acima: ', '\nErro: O ID da disciplina deve ser um número presente na lista acima.', idsDisciplina, '\nErro: ')
+		self.disciplina = Form().inputInt('\n------------- Digite o ID da disciplina conforme a lista acima: ', '\nErro: O ID da disciplina deve ser um número presente na lista acima.', idsDisciplina, '\nErro: Digite o ID de uma disciplina com notas a distribuir cisponível')
  
 		disciplina = Disciplina().getData(self.disciplina)
 		pontuacaoRestante = disciplina.notaTotal - Disciplina().calcNotasDistribuidas(Prova().objects, self.disciplina, "todos")
