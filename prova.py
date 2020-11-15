@@ -17,21 +17,23 @@ class Prova (object):
 
 	@classmethod
 	def all(cls):
-		print('\n\n\n############################# Lista de Provas #############################')
-		print('\n|--------------+---------------------+-------------+----------------------|')
-		print('  ID Prova          Disciplina            Pontos               Status   ')
-		print('|--------------+---------------------+-------------+----------------------|')
+		print('\n\n\n##############################################################################################')
+		print("{:>30} {}".format(' ', ' LISTA DE PROVAS '))
+		print('\n|---------------+--------------------------------+-----------------+-------------------------|')
+		print(f"{'':5} {'ID':10} {'':8}  {'DISCIPLINA':28} {'PONTOS':22} {'STATUS':25}")
+		print('|---------------+--------------------------------+-----------------+-------------------------|')
 		for p in cls.objects:
 			disciplina = list(filter(lambda x: x.id == p.disciplina, Disciplina().objects))
-			print(' {:>6}        {:>16}         {:>7,.1f}    {:>21}'.format(p.id, disciplina[0].nome, p.pontos, p.status))
-			print('|--------------+---------------------+-------------+----------------------|')
+			print(f"{p.id:7} {'':17}  {disciplina[0].nome:11} {p.pontos:22.1f} {'':15} {p.status:25}")
+			print('|---------------+--------------------------------+-----------------+-------------------------|')
 	
 	def get(self, id_prova):
 		prova = list(filter(lambda x: x.id == id_prova, self.__class__.objects))
 		disciplina = list(filter(lambda x: x.id == prova[0].disciplina, Disciplina().objects))
-		print('\n\n\n####################### Informações sobre a prova #########################')
-		print("\n            Prova de {} valendo {} pontos.   ".format(disciplina[0].nome, prova[0].pontos))
-		print("\n            ID da Prova {} - Status: {}.".format(prova[0].id, prova[0].status))
+		print('\n\n\n##############################################################################################')
+		print("{:>30} {}".format(' ', ' INFORMAÇÕES SOBRE A PROVA '))
+		print('\n{:>20} {}'.format(' ', "Prova de {} valendo {} pontos.   ".format(disciplina[0].nome, prova[0].pontos)))
+		print("\n{:>20} {}".format(' ', "ID da Prova {} - Status: {}.".format(prova[0].id, prova[0].status)))
 		
 		if(prova[0].status != 'não realizada'):
 			Nota().getNotas(prova[0].id)
@@ -41,6 +43,11 @@ class Prova (object):
 		prova = list(filter(lambda x: x.id == id_prova, self.__class__.objects))
 		disciplina = list(filter(lambda x: x.id == prova[0].disciplina, Disciplina().objects))
 		return [prova[0], disciplina[0]]
+
+	#return objeto disciplina
+	def getDisciplina(self):
+		disciplina = list(filter(lambda x: x.id == self.disciplina, Disciplina().objects))
+		return disciplina[0]
 			
 
 	@classmethod
@@ -60,3 +67,24 @@ class Prova (object):
 	def atualizaStatus(self, id_prova):
 		prova = list(filter(lambda x: x.id == id_prova, self.__class__.objects))
 		prova[0].status = "Realizada"
+
+
+	def getProvaByAluno(self, matricula):
+		idsProvas = Prova().ids('Realizada')
+		provas = list(filter(lambda x: x.id in idsProvas, Prova().objects))
+
+		if(len(provas) > 0):
+			print('\n\n|-----------------------+-------------------+-------------------+-----------------------|')
+			print('     Disciplina             Valor                Pontuação          Aproveitamento')
+			print('|-----------------------+-------------------+-------------------+-----------------------|')
+			for prova in provas:
+				nota = Nota().getNotaAluno(prova.id, matricula)
+				
+				print('     {:>10}       {:>10,.1f} pontos   {:>10,.1f} pontos        {:>10}%'.format(prova.getDisciplina().nome, prova.pontos, nota, (nota / prova.pontos * 100)))
+				print('|-----------------------+-------------------+-------------------+-----------------------|')
+
+
+		else:
+			print('\n\n------------------------ Nenhuma prova realizada ainda! -------------------------------')
+
+		

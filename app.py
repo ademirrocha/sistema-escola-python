@@ -10,7 +10,9 @@ import os
 
 class Menu(object):
 	def __init__(self):
-		print("\n\n 	Olá, bem vindo ao sistema da escola!")
+		print('\n\n\n')
+		print("{:>30} {}".format(' ', ' Olá, bem vindo ao sistema da escola! '))
+		print("\n\n 	")
 
 	def menu(self):
 		opcao = Form().menu()
@@ -31,6 +33,8 @@ class Menu(object):
 			Disciplina().all(Prova().objects)
 		if(opcao == "2-3"):
 			Prova().all()
+		if(opcao == "3-1"):
+			Aluno().get(Form().pesquisaAluno(), Prova())
 		if(opcao == "3-3"):
 			Prova().get(Form().pesquisaProva())
 		if(opcao == "9"):

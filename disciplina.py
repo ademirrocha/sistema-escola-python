@@ -15,13 +15,16 @@ class Disciplina (object):
 
 	@classmethod
 	def all(self, provas):
-		print("\n\n#################################### Lista de disciplinas ###################################")
-		print('\n|---------------+----------------------+-----------------------------+-----------------------|')
-		print('  ID Disciplina        Disciplina             Notas Concluídas         Notas a Distribuir')
-		print('|---------------+----------------------+-----------------------------+-----------------------|')
+		print('\n\n\n##############################################################################################')
+		print("{:>30} {}".format(' ', ' LISTA DE DISCIPLINAS '))
+		print('\n|--------+-----------------------------+-----------------------------+-----------------------|')
+		print(f"{'':3} {'ID':3} {'':10} {'DISCIPLINA':25} {'NOTAS CONCLUIDAS':27} {'NOTAS A DISTRIBUIR':25}")
+		print('|--------+-----------------------------+-----------------------------+-----------------------|')
 		for disc in self.objects:
-			print(' {:>5}       {:>22}               {:<3.1f} de {:>5.1f}          {:>12.1f}'.format(disc.id, disc.nome, Disciplina().calcNotasDistribuidas(provas, disc.id), disc.notaTotal, (disc.notaTotal - Disciplina().calcNotasDistribuidas(provas, disc.id, 'Todos')) ) )
-			print('|---------------+----------------------+-----------------------------+-----------------------|')
+			notasConcluidas = Disciplina().calcNotasDistribuidas(provas, disc.id)
+			notasRestante = disc.notaTotal - Disciplina().calcNotasDistribuidas(provas, disc.id, 'Todos')
+			print(f" {disc.id:4}  {'':9}   {disc.nome:15} {notasConcluidas:20.1f} {notasRestante:30.1f}")
+			print('|--------+-----------------------------+-----------------------------+-----------------------|')
 	
 
 
