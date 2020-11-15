@@ -28,7 +28,7 @@ class Menu(object):
 		if(opcao == "2-1"):
 			Aluno().all()
 		if(opcao == "2-2"):
-			Disciplina().all()
+			Disciplina().all(Prova().objects)
 		if(opcao == "2-3"):
 			Prova().all()
 		if(opcao == "3-3"):

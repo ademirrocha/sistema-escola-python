@@ -14,9 +14,14 @@ class Aluno (object):
 
 	@classmethod
 	def all(cls):
-		print("\n\nLista de alunos:")
+		print("\n\n####################### Lista de alunos ######################")
+		print('\n|--------------+---------------------------+-----------------|')
+		print('  Matricula                Nome                  Idade   ')
+		print('|--------------+---------------------------+-----------------|')
+		
 		for p in cls.objects:
-			print('Matricula: {} - Nome: {} - Idade: {}'.format(p.matricula, p.nome, p.idade))
+			print('  {:>5}          {:>15}      {:13} anos'.format(p.matricula, p.nome, p.idade))
+			print('|--------------+---------------------------+-----------------|')
 
 
 	

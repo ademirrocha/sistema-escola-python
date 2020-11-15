@@ -8,29 +8,35 @@ from nota import Nota
 class Form(object):
 
 	def cadastroAluno(self):
-		self.nome = input('\n 	------------- Digite o nome: ')
-		self.idade = Form().inputInt(' 	------------- Digite a idade: ', '\nErro: A idade deve ser um número.')
+		print('\n\n====================== Cadastro de Aluno ======================')
+		self.nome = input('\n------------- Digite o nome: ')
+		self.idade = Form().inputInt('------------- Digite a idade: ', '\nErro: A idade deve ser um número.')
 		return self
 
 	def cadastroDisciplina(self):
-		print('\n\n 	Cadastro de Disciplina:')
-		self.nome = input('\n 	------------- Digite o nome da disciplina: ')
+		print('\n\n====================== Cadastro de Disciplina ======================')
+		self.nome = input('\n------------- Digite o nome da disciplina: ')
 		return self
 
 	def cadastroProva(self):
-		Disciplina().all()
-		idsDisciplina = Disciplina().ids()
-		print('\n\nCadastro de Prova:')
-		self.disciplina = Form().inputInt('\n 	------------- Digite o ID da disciplina conforme a lista acima: ', '\nErro: O ID da disciplina deve ser um número presente na lista acima.', idsDisciplina)
-		self.pontos = Form().inputFloat(' 	------------- Digite a quantidade de pontos que vale a prova: ', '\nErro: Os pontos da prova deve ser um número (casas decimais deve separados por . e não por , ).')
+		Disciplina().all(Prova().objects)
+		idsDisciplina = Disciplina().ids('Pontos Disponível', Prova().objects)
+		print('\n\n====================== Cadastro de Prova ======================')
+		self.disciplina = Form().inputInt('\n------------- Digite o ID da disciplina conforme a lista acima: ', '\nErro: O ID da disciplina deve ser um número presente na lista acima.', idsDisciplina, '\nErro: ')
+ 
+		disciplina = Disciplina().getData(self.disciplina)
+		pontuacaoRestante = disciplina.notaTotal - Disciplina().calcNotasDistribuidas(Prova().objects, self.disciplina, "todos")
+		
+		self.pontos = Form().inputFloat('------------- Digite a quantidade de pontos que vale a prova: ', '\nErro: Os pontos da prova deve ser um número (casas decimais deve separados por . e não por , ).', pontuacaoRestante, '\nErro: Valor máximo de pontos deve ser menor ou igual a {} pontos.\n'.format(pontuacaoRestante))
 		return self
 
 	def cadastroNota(self):
 		alunos = Aluno()
 		dataProva = Prova().getOnlyData(Form().pesquisaProva(' 	não realizada', "\nErro: Pesquise por uma prova da lista e que não foi realizada ainda."))
+		print('\n\n\n####################### Informações sobre a prova #########################')
 		print("\n 	Prova de {} valendo {} pontos:".format(dataProva[1].nome, dataProva[0].pontos))
 		for aluno in alunos.objects:
-			nota = Form().inputFloat('\n 	Digite a nota de {}: '.format(aluno.nome), '\nErro: A nota deve ser um número (casas decimais devem separadas por .)', dataProva[0].pontos, 'Erro: Digite um número maior ou igual a 0 e menor ou igual a {}.'.format(dataProva[0].pontos))
+			nota = Form().inputFloat('\n------------- Digite a nota de {}: '.format(aluno.nome), '\nErro: A nota deve ser um número (casas decimais devem separadas por .)', dataProva[0].pontos, 'Erro: Digite um número maior ou igual a 0 e menor ou igual a {}.'.format(dataProva[0].pontos))
 			Nota().save(dataProva[0].id, aluno.matricula, nota)
 
 		#Atualiza o status da prova pra "Realizada"
@@ -100,7 +106,6 @@ class Form(object):
 	def pesquisaProva(self, options = 'todos', otherError = None):
 		Prova().all()
 		idsProva = Prova().ids(options)
-		print('\n\n\n###########################################################################')
 		
 		return Form().inputInt('\n------------- Digite o ID da prova conforme a lista acima: ', '\nErro: O ID da prova deve ser um numero presente na lista acima.', idsProva, otherError)
 

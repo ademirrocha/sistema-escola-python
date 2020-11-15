@@ -29,3 +29,6 @@ class Nota(object):
 			nota = list(filter(lambda x: x.prova == id_prova and x.aluno == matricula_aluno, Nota().objects))
 		
 		return nota[0].nota
+
+
+
