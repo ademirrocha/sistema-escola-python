@@ -9,6 +9,13 @@ Crie um sistema (modo texto) orientado a objetos em Python que contenha as diver
 
 Sistema de cadastro de alunos, Disciplinas, Provas, Notas de Provas de uma escola.
 
+## Dados
+
+O sistema possui alguns dados ficticios ja cadastrados.
+
+Obs: O sistema não possui um banco de dados. Então ao sair do programa todos 
+os dados cadastrados serão perdidos. 
+
 
 
 ## Usando o sistema
@@ -75,3 +82,6 @@ Menu principal
 ```
 
 Para ver outros exemplos de telas veja as imagens dentro da pasta exemplos.
+
+
+![What is this](exemplos/01.png)
